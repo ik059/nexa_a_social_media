@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 
-from app.api.v1.endpoints import auth
+from app.api.v1.endpoints import auth, posts
 
 app = FastAPI(
     title="Next Social Media app",
@@ -9,6 +9,7 @@ app = FastAPI(
 )
 
 app.include_router(auth.router, prefix="/auth", tags=['Auth'])
+app.include_router(posts.router, prefix="/post", tags=["Poss"])
 @app.get('/')
 async def root():
     return {
