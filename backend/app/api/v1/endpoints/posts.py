@@ -69,3 +69,28 @@ async def update_post(
     await db.refresh(post)
 
     return post
+
+@router.delete('/deletepost/{post_id}')
+async def delete_post(
+    post_id = UUID,
+    current_user : User = Depends(get_current_user),
+    db: AsyncSession = Depends(get_db)
+):
+    result = await db.execute(select(Post).where(Post.id == post_id))
+    post = result.scalar_one_or_none()
+    
+    if not post:
+       raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="post not found!"
+        )
+    if post.user_id != current_user.id:
+        raise HTTPException(
+            status_code= status.HTTP_401_UNAUTHORIZED,
+            detail="You are not allowed to delete the post"
+        )
+    
+    await db.delete(post)
+    await db.commit()
+    return
+    
