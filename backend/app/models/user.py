@@ -13,3 +13,5 @@ class User(Base):
     is_active = Column(Boolean, default=True)
     
     posts = relationship('Post', back_populates='user', cascade="all, delete-orphan")
+    likes = relationship("Like", back_populates="user", cascade="all, delete-orphan")
+    comments = relationship("Comments", back_populates="user", cascade="all, delete-orphan")

@@ -15,3 +15,5 @@ class Post(Base):
     
     
     user = relationship("User", back_populates='posts')
+    likes = relationship("Like", back_populates="post", cascade="all, delete-orphan")
+    comments = relationship("Comments", back_populates="post", cascade="all, delete-orphan")

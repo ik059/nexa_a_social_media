@@ -79,6 +79,7 @@ async def delete_post(
     result = await db.execute(select(Post).where(Post.id == post_id))
     post = result.scalar_one_or_none()
     
+    
     if not post:
        raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
